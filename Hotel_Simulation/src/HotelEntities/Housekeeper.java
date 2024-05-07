@@ -30,4 +30,24 @@ public class Housekeeper extends Thread{
     public void setAvailable() {
         this.isAvailable = !isAvailable;
     }
+     // Método para limpar um quarto
+     public void cleanRoom() {
+        lock.lock(); // Adquirindo o bloqueio para garantir exclusão mútua
+        setAvailable(); // Marcar o funcionário como indisponível enquanto limpa
+        this.beingCleaned = hotel.getDirtyRoom(); // Obter um quarto sujo do hotel
+        try {
+            if (beingCleaned != null) {
+                beingCleaned.setBeingCleaned(true); // Marcar o quarto como sendo limpo
+                System.out.println("Room cleaning started " + beingCleaned.getNumber());
+                Thread.sleep(2000); // Simular o tempo de limpeza
+                System.out.println("Room " + beingCleaned.getNumber() + " cleaned.");
+                setAvailable(); // Marcar o funcionário como disponível após a limpeza
+                beingCleaned.setBeingCleaned(false); // Marcar o quarto como não mais sendo limpo
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock(); // Liberando o bloqueio após a conclusão da operação
+        }
+    }
 }
