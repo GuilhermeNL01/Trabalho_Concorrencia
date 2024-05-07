@@ -35,6 +35,7 @@ public class Guest extends Thread {
     public int getComplaintAttempts() {
         return complaintAttempts++;
     }
+    
      // Decrementa o número de tentativas de reclamação
      public void decrementComplaintAttempts() {
         complaintAttempts--;
@@ -53,6 +54,7 @@ public class Guest extends Thread {
         System.out.println(this.getId() + ": The Hotel has no available rooms. Terrible, won't come back!");
         Thread.currentThread().interrupt();
     }
+
     // Entrega a chave para o recepcionista
     public void deliverKeyToReceptionist(Receptionist receptionist){
         receptionist.addKey(key);
@@ -69,5 +71,25 @@ public class Guest extends Thread {
         Housekeeper housekeeper = hotel.getHousekeeper();
         System.out.println(this.getId() + " leaving the Hotel");
         housekeeper.cleanRoom();
+    }
+
+    // Sai para um passeio
+    public void goOut(Receptionist receptionist) {
+        deliverKeyToReceptionist(receptionist);
+        System.out.println(this.getId() + " going out for a walk");
+        Housekeeper housekeeper = hotel.getHousekeeper();
+        room.setClean(false);
+        housekeeper.cleanRoom();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Retorna para o quarto
+    public void returnToRoom(Key key) {
+        this.key = key;
+        System.out.println(this.getId() + " returning to the room");
     }
 }
