@@ -10,11 +10,11 @@ public class Room {
     private boolean available;
     private boolean hasKey;
     private boolean beingCleaned;
-    public boolean isClean;
+    public  boolean isClean;
     public Guest guest = null;
-    public Key key;
+    public  Key key;
 
-    // Adiciona a implementação básica da classe Room com os atributos e métodos necessários.
+
     public Room(int number, int capacity) {
         this.number = number;
         this.capacity = capacity;
@@ -25,17 +25,46 @@ public class Room {
         key = new Key(this);
     }
 
-    // Adiciona métodos para verificar se o quarto está disponível e se está sendo limpo, garantindo consistência nas operações de reserva e limpeza.
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setBeingCleaned(boolean beingCleaned) {
+        this.beingCleaned = beingCleaned;
+    }
+
+    public boolean isClean() {
+        return isClean;
+    }
+
+    public void setClean(boolean clean){
+        this.isClean = clean;
+    }
+
+    public boolean getBeingCleaned(){
+        return this.beingCleaned;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
     public boolean isAvailable() {
         return available;
     }
 
-    public boolean getBeingCleaned() {
-        return this.beingCleaned;
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
     }
 
+    public boolean getHasKey(){
+        return this.hasKey;
+    }
 
-    // métodos para ocupar e desocupar o quarto, gerenciando o estado de disponibilidade e associando hóspedes quando necessário.
+    public Key getKey() {
+        return key;
+    }
+
     public void occupy(Guest guest) {
         lock.lock();
         try {
@@ -46,7 +75,6 @@ public class Room {
         }
         hasKey = false;
     }
-
     public void vacate() {
         lock.lock();
         try {
@@ -55,27 +83,5 @@ public class Room {
         } finally {
             lock.unlock();
         }
-    }
-
-    // Adiciona métodos para verificar se o quarto está limpo, permitindo que a equipe de limpeza seja notificada quando necessário.
-    public boolean isClean() {
-        return isClean;
-    }
-
-    public void setClean(boolean clean) {
-        this.isClean = clean;
-    }
-
-    // Adiciona métodos para gerenciar a disponibilidade da chave do quarto, garantindo que a chave esteja disponível apenas quando o quarto estiver ocupado.
-    public void setHasKey(boolean hasKey) {
-        this.hasKey = hasKey;
-    }
-
-    public boolean getHasKey() {
-        return this.hasKey;
-    }
-
-    public Key getKey() {
-        return key;
     }
 }
