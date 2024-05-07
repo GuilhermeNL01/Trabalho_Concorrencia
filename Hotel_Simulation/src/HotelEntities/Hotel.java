@@ -62,8 +62,80 @@ public class Hotel {
     }
 }
 
+// Métodos para acessar os housekeepers, receptionists, e a lista de espera
+public List<Housekeeper> getHousekeepers() {
+    return housekeepers;
+}
 
+public List<Receptionist> getReceptionists() {
+    return receptionists;
+}
 
+public List<Guest> getWaitingList() {
+    return waitingList;
+}
+
+// Método para obter um housekeeper disponível para limpeza
+public Housekeeper getHousekeeper(){
+    lock.lock();
+    try{
+        for(Housekeeper housekeeper: housekeepers){
+            if(!housekeeper.isCleaning()){
+                return housekeeper;
+            }
+        }
+        return null;
+    }finally {
+        lock.unlock();
+    }
+}
+
+// Método para obter um receptionist disponível para atendimento
+public Receptionist getReceptionist(){
+    lock.lock();
+    try {
+        for (Receptionist receptionist : receptionists) {
+            if (receptionist.isFree()) {
+                return receptionist;
+            }
+        }
+        return null;
+    }finally {
+        lock.unlock();
+    }
+}
+
+// Método para obter um quarto disponível
+public Room getAvailableRoom(){
+    lock.lock();
+    try {
+        for (Room room : rooms) {
+            if (room.isAvailable()) {
+                return room;
+            }
+        }
+        return null;
+    }finally {
+        lock.unlock();
+    }
+}
+
+// Método para obter um quarto sujo
+public Room getDirtyRoom(){
+    lock.lock();
+    try {
+        for (Room room : rooms) {
+            if (room.getHasKey() && !room.isClean()){
+                room.setClean(true);
+                room.setHasKey(false);
+                return room;
+            }
+        }
+        return null;
+    }finally {
+        lock.unlock();
+    }
+}
 
 
 
