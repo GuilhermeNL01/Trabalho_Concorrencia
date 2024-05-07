@@ -14,7 +14,7 @@ public class Room {
     public Guest guest = null;
     public Key key;
 
-    //Adiciona a implementação básica da classe Room com os atributos e métodos necessários.
+    // Adiciona a implementação básica da classe Room com os atributos e métodos necessários.
     public Room(int number, int capacity) {
         this.number = number;
         this.capacity = capacity;
@@ -25,12 +25,35 @@ public class Room {
         key = new Key(this);
     }
 
-    //Adiciona métodos para verificar se o quarto está disponível e se está sendo limpo, garantindo consistência nas operações de reserva e limpeza.
+    // Adiciona métodos para verificar se o quarto está disponível e se está sendo limpo, garantindo consistência nas operações de reserva e limpeza.
     public boolean isAvailable() {
         return available;
     }
 
     public boolean getBeingCleaned() {
         return this.beingCleaned;
+    }
+
+
+    // métodos para ocupar e desocupar o quarto, gerenciando o estado de disponibilidade e associando hóspedes quando necessário.
+    public void occupy(Guest guest) {
+        lock.lock();
+        try {
+            this.guest = guest;
+            this.available = false;
+        } finally {
+            lock.unlock();
+        }
+        hasKey = false;
+    }
+
+    public void vacate() {
+        lock.lock();
+        try {
+            this.guest = null;
+            this.available = true;
+        } finally {
+            lock.unlock();
+        }
     }
 }
