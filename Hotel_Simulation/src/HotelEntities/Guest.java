@@ -53,4 +53,21 @@ public class Guest extends Thread {
         System.out.println(this.getId() + ": The Hotel has no available rooms. Terrible, won't come back!");
         Thread.currentThread().interrupt();
     }
+    // Entrega a chave para o recepcionista
+    public void deliverKeyToReceptionist(Receptionist receptionist){
+        receptionist.addKey(key);
+        this.key = null;
+        room.setHasKey(true);
+    }
+
+    // Deixa o hotel
+    public void leaveHotel(Receptionist receptionist) {
+        deliverKeyToReceptionist(receptionist);
+        hotel.removeGuest(this);
+        room.setClean(false);
+        room.setAvailable(true);
+        Housekeeper housekeeper = hotel.getHousekeeper();
+        System.out.println(this.getId() + " leaving the Hotel");
+        housekeeper.cleanRoom();
+    }
 }
