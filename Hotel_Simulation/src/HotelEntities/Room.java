@@ -56,4 +56,26 @@ public class Room {
             lock.unlock();
         }
     }
+
+    // Adiciona métodos para verificar se o quarto está limpo, permitindo que a equipe de limpeza seja notificada quando necessário.
+    public boolean isClean() {
+        return isClean;
+    }
+
+    public void setClean(boolean clean) {
+        this.isClean = clean;
+    }
+
+    // Adiciona métodos para gerenciar a disponibilidade da chave do quarto, garantindo que a chave esteja disponível apenas quando o quarto estiver ocupado.
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
+
+    public boolean getHasKey() {
+        return this.hasKey;
+    }
+
+    public Key getKey() {
+        return key;
+    }
 }
