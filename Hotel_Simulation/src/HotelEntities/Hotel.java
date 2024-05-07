@@ -33,7 +33,40 @@ public class Hotel {
         createHousekeepers();
         createRooms();
     }
+
+    // Método para criar e inicializar os housekeepers
+    public void createHousekeepers() {
+        for (int i = 0; i < NUM_HOUSEKEEPERS; i++) {
+            housekeepers.add(new Housekeeper(i + 1, this));
+        }
+        for (Housekeeper housekeeper : housekeepers) {
+            housekeeper.start();
+        }
+    }
+
+    // Método para criar e inicializar os receptionists
+    public void createReceptionists() {
+        for (int i = 0; i < NUM_RECEPTIONISTS; i++) {
+            receptionists.add(new Receptionist(i + 1, this));
+        }
+        for (Receptionist receptionist : receptionists) {
+            receptionist.start();
+        }
+    }
+
+    // Método para criar e inicializar os quartos do hotel
+    public void createRooms() {
+        for (int i = 0; i < NUM_ROOMS; i++) {
+            rooms.add(new Room(i + 1, 4)); // Capacidade de 4 hóspedes por quarto
+        }
+    }
 }
+
+
+
+
+
+
 
 
 
