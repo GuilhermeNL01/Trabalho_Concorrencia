@@ -50,4 +50,19 @@ public class Housekeeper extends Thread{
             lock.unlock(); // Liberando o bloqueio após a conclusão da operação
         }
     }
+    
+    @Override
+    public void run() {
+        System.out.println("Housekeeper " + id + " started the shift.");
+        while (true) {
+            try {
+                this.cleanRoom(); // Limpar um quarto durante o turno
+                Thread.sleep(new Random().nextInt(5000)); // Simular tempo entre limpezas
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 }
+
