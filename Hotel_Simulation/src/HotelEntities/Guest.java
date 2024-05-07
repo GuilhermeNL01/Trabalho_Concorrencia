@@ -35,7 +35,7 @@ public class Guest extends Thread {
     public int getComplaintAttempts() {
         return complaintAttempts++;
     }
-    
+
      // Decrementa o número de tentativas de reclamação
      public void decrementComplaintAttempts() {
         complaintAttempts--;
@@ -92,4 +92,35 @@ public class Guest extends Thread {
         this.key = key;
         System.out.println(this.getId() + " returning to the room");
     }
-}
+    
+     // Método run da thread
+     @Override
+     public void run() {
+         Receptionist receptionist = hotel.getReceptionist();
+         System.out.println("Guest " + id + " arrived at the hotel.");
+         if (receptionist != null && complaintAttempts > 0) {
+             while (complaintAttempts > 0) {
+                 receptionist.allocateRoom(this);
+                 if (this.key != null) {
+                     try {
+                         goOut(receptionist);
+                         Thread.sleep(4000);
+                         if (!room.getBeingCleaned()) {
+                             returnToRoom(receptionist.returnKey(room.getNumber()));
+                         }
+                         Thread.sleep(4000);
+                         leaveHotel(receptionist);
+                         break;
+                     } catch (InterruptedException e) {
+                         throw new RuntimeException(e);
+                     }
+                 } else {
+                     complaintAttempts--;
+                 }
+             }
+             if (complaintAttempts == 0) {
+                 System.out.println("Reclamação feita");
+             }
+         }
+     }
+ }
