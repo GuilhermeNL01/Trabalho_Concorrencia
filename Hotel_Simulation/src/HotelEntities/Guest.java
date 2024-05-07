@@ -35,4 +35,22 @@ public class Guest extends Thread {
     public int getComplaintAttempts() {
         return complaintAttempts++;
     }
+     // Decrementa o número de tentativas de reclamação
+     public void decrementComplaintAttempts() {
+        complaintAttempts--;
+        if(complaintAttempts == 0){
+            complain();
+        }
+    }
+
+    // Obtém a thread do hóspede
+    public Thread getThread() {
+        return thread;
+    }
+
+    // Método para reclamar sobre a falta de quartos
+    public void complain() {
+        System.out.println(this.getId() + ": The Hotel has no available rooms. Terrible, won't come back!");
+        Thread.currentThread().interrupt();
+    }
 }
