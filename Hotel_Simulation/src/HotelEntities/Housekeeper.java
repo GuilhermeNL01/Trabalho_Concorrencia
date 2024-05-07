@@ -16,4 +16,18 @@ public class Housekeeper extends Thread{
         this.isCleaning = false;
         this.lock = new ReentrantLock();
     }
+     // Método para verificar se o funcionário está atualmente limpando um quarto
+     public boolean isCleaning(){
+        return this.isCleaning;
+    }
+
+    // Método para definir se o funcionário está atualmente limpando um quarto
+    public void setCleaning(boolean isCleaning){
+        this.isCleaning = isCleaning;
+    }
+
+    // Método para definir se o funcionário está disponível ou não
+    public void setAvailable() {
+        this.isAvailable = !isAvailable;
+    }
 }
