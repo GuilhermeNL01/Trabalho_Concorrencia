@@ -14,8 +14,7 @@ public class Room {
     public Guest guest = null;
     public Key key;
 
-    // Commit: "Inicialização da Classe Room"
-    // Comentário: "Adiciona a implementação básica da classe Room com os atributos e métodos necessários."
+    //Adiciona a implementação básica da classe Room com os atributos e métodos necessários.
     public Room(int number, int capacity) {
         this.number = number;
         this.capacity = capacity;
@@ -24,5 +23,14 @@ public class Room {
         this.isClean = true;
         this.beingCleaned = false;
         key = new Key(this);
+    }
+
+    //Adiciona métodos para verificar se o quarto está disponível e se está sendo limpo, garantindo consistência nas operações de reserva e limpeza.
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public boolean getBeingCleaned() {
+        return this.beingCleaned;
     }
 }
