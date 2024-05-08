@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        final int NUM_GUESTS = 50;
+        final int NUM_GUESTS = 14;
         List<Guest> guests = new ArrayList<>();
         Hotel hotel = new Hotel();
 
