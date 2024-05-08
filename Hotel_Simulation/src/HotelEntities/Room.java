@@ -4,17 +4,17 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class Room {
-    private final int number;
-    private final int capacity;
-    private final Lock lock;
-    private boolean available;
-    private boolean hasKey;
-    private boolean beingCleaned;
-    public  boolean isClean;
-    public Guest guest = null;
-    public  Key key;
+    private final int number; // Número do quarto
+    private final int capacity; // Capacidade máxima de hóspedes do quarto
+    private final Lock lock; // Objeto de bloqueio para sincronização
+    private boolean available; // Indica se o quarto está disponível para ocupação
+    private boolean hasKey; // Indica se o quarto possui uma chave associada
+    private boolean beingCleaned; // Indica se o quarto está sendo limpo
+    public boolean isClean; // Indica se o quarto está limpo
+    public Guest guest = null; // Hóspede atualmente no quarto (se houver)
+    public Key key; // Chave associada ao quarto
 
-
+    // Construtor para inicializar o quarto
     public Room(int number, int capacity) {
         this.number = number;
         this.capacity = capacity;
@@ -22,28 +22,10 @@ public class Room {
         this.available = true;
         this.isClean = true;
         this.beingCleaned = false;
-        key = new Key(this);
+        key = new Key(this); // Inicializa a chave associada ao quarto
     }
 
-    public void setAvailable(boolean available) {
-        this.available = available;
-    }
-
-    public void setBeingCleaned(boolean beingCleaned) {
-        this.beingCleaned = beingCleaned;
-    }
-
-    public boolean isClean() {
-        return isClean;
-    }
-
-    public void setClean(boolean clean){
-        this.isClean = clean;
-    }
-
-    public boolean getBeingCleaned(){
-        return this.beingCleaned;
-    }
+    // Métodos para acessar informações sobre o quarto
 
     public int getNumber() {
         return number;
@@ -53,11 +35,11 @@ public class Room {
         return available;
     }
 
-    public void setHasKey(boolean hasKey) {
-        this.hasKey = hasKey;
+    public boolean isClean() {
+        return isClean;
     }
 
-    public boolean getHasKey(){
+    public boolean getHasKey() {
         return this.hasKey;
     }
 
@@ -65,23 +47,51 @@ public class Room {
         return key;
     }
 
-    public void occupy(Guest guest) {
-        lock.lock();
-        try {
-            this.guest = guest;
-            this.available = false;
-        } finally {
-            lock.unlock();
-        }
-        hasKey = false;
+    public boolean getBeingCleaned() {
+        return this.beingCleaned;
     }
-    public void vacate() {
-        lock.lock();
+
+    // Métodos para definir o estado do quarto
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setBeingCleaned(boolean beingCleaned) {
+        this.beingCleaned = beingCleaned;
+    }
+
+    public void setClean(boolean clean) {
+        this.isClean = clean;
+    }
+
+    public void setHasKey(boolean hasKey) {
+        this.hasKey = hasKey;
+    }
+
+    // Método para ocupar o quarto com um hóspede
+
+    public void occupy(Guest guest) {
+        lock.lock(); // Adquire o bloqueio
         try {
-            this.guest = null;
-            this.available = true;
+            this.guest = guest; // Define o hóspede atual do quarto
+            this.available = false; // Marca o quarto como indisponível
         } finally {
-            lock.unlock();
+            lock.unlock(); // Libera o bloqueio
+        }
+        hasKey = false; // Marca que a chave do quarto não está disponível
+    }
+
+    // Método para desocupar o quarto
+
+    public void vacate() {
+        lock.lock(); // Adquire o bloqueio
+        try {
+            this.guest = null; // Remove o hóspede do quarto
+            this.available = true; // Marca o quarto como disponível
+        } finally {
+            lock.unlock(); // Libera o bloqueio
         }
     }
 }
+

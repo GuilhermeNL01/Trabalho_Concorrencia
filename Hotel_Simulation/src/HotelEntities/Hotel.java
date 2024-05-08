@@ -32,6 +32,7 @@ public class Hotel {
         createRooms();
     }
 
+    // Cria os housekeepers com base no número definido
     public void createHousekeepers(){
         for (int i = 0; i < NUM_HOUSEKEEPERS; i++) {
             housekeepers.add(new Housekeeper(i + 1, this));
@@ -41,6 +42,7 @@ public class Hotel {
         }
     }
 
+    // Cria os recepcionistas com base no número definido
     public void createReceptionists(){
         for (int i = 0; i < NUM_RECEPTIONISTS; i++) {
             receptionists.add(new Receptionist(i + 1, this));
@@ -50,6 +52,7 @@ public class Hotel {
         }
     }
 
+    // Cria os quartos com base no número definido
     public void createRooms(){
         for (int i = 0; i < NUM_ROOMS; i++) {
             rooms.add(new Room(i + 1, 4)); // Capacity of 4 guests per room
@@ -57,6 +60,9 @@ public class Hotel {
     }
 
 
+     // Métodos para obter listas de housekeepers, recepcionistas, hóspedes em lista de espera e chaves
+
+    // Método para obter um housekeeper disponível para limpeza
     public List<Housekeeper> getHousekeepers() {
         return housekeepers;
     }
@@ -87,6 +93,7 @@ public class Hotel {
         }
     }
 
+    // Método para obter um recepcionista disponível
     public Receptionist getReceptionist(){
         lock.lock();
         try {
@@ -101,6 +108,7 @@ public class Hotel {
         }
     }
 
+    // Método para obter um quarto disponível
     public Room getAvailableRoom(){
         lock.lock();
         try {
@@ -115,6 +123,7 @@ public class Hotel {
         }
     }
 
+    // Método para obter um quarto sujo que precisa ser limpo
     public Room getDirtyRoom(){
         lock.lock();
         try {
@@ -131,6 +140,7 @@ public class Hotel {
         }
     }
 
+    // Adiciona um hóspede à lista de espera se não houver quartos disponíveis
     public void addToWaitingList(Guest guest){
         if(!this.waitingList.contains(guest)) {
             System.out.println("No available rooms. Guest " + guest.getId() + " is in the waiting list.");
@@ -138,10 +148,12 @@ public class Hotel {
         }
     }
 
+    // Remove um hóspede do hotel
     public void removeGuest(Guest guest){
         this.allGuestsInHotel.remove(guest);
     }
 
+    // Aloca um quarto para um hóspede
     public void allocateRoom(Guest guest) throws InterruptedException {
         lock.lock();
         try {
@@ -165,6 +177,7 @@ public class Hotel {
         }
     }
 
+    // O hóspede sai do hotel
     public void leave(Guest guest) {
         lock.lock();
         try {
@@ -182,6 +195,7 @@ public class Hotel {
         }
     }
 
+    // O housekeeper limpa o quarto
     public void cleanRoom() throws InterruptedException {
         lock.lock();
         try {
@@ -199,6 +213,7 @@ public class Hotel {
         }
     }
 
+    // Recepcionista recebe o hóspede da lista de espera
     public void welcomeGuest() throws InterruptedException {
         lock.lock();
         try {
